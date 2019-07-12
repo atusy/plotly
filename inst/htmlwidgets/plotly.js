@@ -8,9 +8,10 @@ HTMLWidgets.widget({
   },
 
   resize: function(el, width, height, instance) {
-    if (instance.autosize) {
-      var width = instance.width || width;
-      var height = instance.height || height;
+    if (el.layout.autosize || true) {
+      // User specified height/width overrides htmlwidgets height/width
+      var width = el.layout.width || width;
+      var height = el.layout.height || height;
       Plotly.relayout(el.id, {width: width, height: height});
     }
   },  
@@ -153,16 +154,8 @@ HTMLWidgets.widget({
       
       var plot = Plotly.plot(graphDiv, x);
       instance.plotly = true;
-      instance.autosize = x.layout.autosize || true;
-      instance.width = x.layout.width;
-      instance.height = x.layout.height;
       
     } else {
-      
-      // new x data could contain a new height/width...
-      // attach to instance so that resize logic knows about the new size
-      instance.width = x.layout.width || instance.width;
-      instance.height = x.layout.height || instance.height;
       
       // this is essentially equivalent to Plotly.newPlot(), but avoids creating 
       // a new webgl context
