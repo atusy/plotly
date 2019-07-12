@@ -8,10 +8,11 @@ HTMLWidgets.widget({
   },
 
   resize: function(el, width, height, instance) {
-    if (el.layout.autosize || true) {
+    var layout = el.layout || {};
+    if (layout.autosize || true) {
       // User specified height/width overrides htmlwidgets height/width
-      var width = el.layout.width || width;
-      var height = el.layout.height || height;
+      var width = layout.width || width;
+      var height = layout.height || height;
       Plotly.relayout(el.id, {width: width, height: height});
     }
   },  
